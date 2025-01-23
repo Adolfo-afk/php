@@ -1,12 +1,12 @@
 <?php
 // Variables de conexión
-$servidor = "localhost"; // Nombre del servidor (por defecto localhost)
+$servidor = "localhost:3307"; // Nombre del servidor (por defecto localhost)
 $usuario = "root";       // Usuario (por defecto root en XAMPP)
 $contrasena = "";        // Contraseña (por defecto vacío en XAMPP)
 $nombre_base_datos = "adolfo"; // Nombre de la base de datos
-$puerto = 3307;
+
 // Establecer la conexión
-$conexion = mysqli_connect($servidor, $usuario, $contrasena, $nombre_base_datos, $puerto);
+$conexion = mysqli_connect($servidor, $usuario, $contrasena, $nombre_base_datos);
 
 // Verificar si la conexión fue exitosa
 if (!$conexion) {
