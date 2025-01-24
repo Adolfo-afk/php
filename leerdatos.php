@@ -33,6 +33,40 @@ while ($row = mysqli_fetch_assoc($resultado)) {
 // Cerrar la tabla HTML
 echo "</table>";
 
+
+
+// Recorrer cada fila y mostrar solo las que tengan 'edad' mayor a 20
+while ($row = mysqli_fetch_assoc($resultado)) {
+    if ($row['edad'] > 20) { // Condición para filtrar por edad mayor a 20
+        echo "<tr>
+                <td>" . $row['id'] . "</td>
+                <td>" . $row['nombre'] . "</td>
+                <td>" . $row['edad'] . "</td>
+                <td>" . $row['curso'] . "</td>
+            </tr>";
+    }
+}
+
+// Cerrar la tabla HTML
+echo "</table>";
+
+
+// Recorrer cada fila de resultados y mostrarla, excepto si el nombre es 'Maria'
+while ($row = mysqli_fetch_assoc($resultado)) {
+    if ($row['nombre'] != "Maria") { // Excluir las filas donde el nombre sea 'Maria'
+        echo "<tr>
+                <td>" . $row['id'] . "</td>
+                <td>" . $row['nombre'] . "</td>
+                <td>" . $row['edad'] . "</td>
+                <td>" . $row['curso'] . "</td>
+            </tr>";
+    }
+}
+
+// Cerrar la tabla HTML
+echo "</table>";
+
+
 // Cerrar la conexión a la base de datos (opcional si no lo necesitas aquí)
 // mysqli_close($conexion);
 ?>
