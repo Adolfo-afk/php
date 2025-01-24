@@ -11,7 +11,8 @@ if (!$resultado) {
     die("Error en la consulta: " . mysqli_error($conexion));
 }
 
-// Mostrar los resultados en formato de tabla
+// Mostrar la primera tabla (todos los registros)
+echo "<h3>Todos los registros</h3>";
 echo "<table border='1'>
         <tr>
             <th>ID</th>
@@ -20,7 +21,7 @@ echo "<table border='1'>
             <th>Curso</th>
         </tr>";
 
-// Recorrer cada fila de resultados y mostrarla
+// Recorrer y mostrar todos los resultados
 while ($row = mysqli_fetch_assoc($resultado)) {
     echo "<tr>
             <td>" . $row['id'] . "</td>
@@ -29,15 +30,24 @@ while ($row = mysqli_fetch_assoc($resultado)) {
             <td>" . $row['curso'] . "</td>
         </tr>";
 }
-
-// Cerrar la tabla HTML
 echo "</table>";
 
+// Reiniciar el puntero del resultado para reutilizarlo
+mysqli_data_seek($resultado, 0);
 
+// Mostrar la segunda tabla (filtrada por edad > 20)
+echo "<h3>Registros con edad mayor a 20</h3>";
+echo "<table border='1'>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Curso</th>
+        </tr>";
 
-// Recorrer cada fila y mostrar solo las que tengan 'edad' mayor a 20
+// Recorrer y mostrar resultados filtrados
 while ($row = mysqli_fetch_assoc($resultado)) {
-    if ($row['edad'] > 20) { // Condición para filtrar por edad mayor a 20
+    if ($row['edad'] > 20) {
         echo "<tr>
                 <td>" . $row['id'] . "</td>
                 <td>" . $row['nombre'] . "</td>
@@ -46,27 +56,7 @@ while ($row = mysqli_fetch_assoc($resultado)) {
             </tr>";
     }
 }
-
-// Cerrar la tabla HTML
 echo "</table>";
-
-
-// Recorrer cada fila de resultados y mostrarla, excepto si el nombre es 'Maria'
-while ($row = mysqli_fetch_assoc($resultado)) {
-    if ($row['nombre'] != "Maria") { // Excluir las filas donde el nombre sea 'Maria'
-        echo "<tr>
-                <td>" . $row['id'] . "</td>
-                <td>" . $row['nombre'] . "</td>
-                <td>" . $row['edad'] . "</td>
-                <td>" . $row['curso'] . "</td>
-            </tr>";
-    }
-}
-
-// Cerrar la tabla HTML
-echo "</table>";
-
-
 // Cerrar la conexión a la base de datos (opcional si no lo necesitas aquí)
 // mysqli_close($conexion);
 ?>
