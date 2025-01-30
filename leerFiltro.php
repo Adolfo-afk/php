@@ -15,6 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Verificar si la consulta fue exitosa
         if (!$resultado) {
+            //pongo un mensaje para explicar que no se ha encontrado un alumno con ese nombre
+
+            //le facilito un enlace al ficherode alta de alumnos por si quiere introducirlo
+
+
+            //añadir boton
+           
             die("Error en la consulta: " . mysqli_error($conexion));
         }
 
