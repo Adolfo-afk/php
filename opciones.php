@@ -6,20 +6,6 @@
     <title>Opciones - Alumnos</title>
     <!-- Link al CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        function validarFormulario() {
-            var nombre = document.getElementById("nombreAlumno").value.trim();
-            var edad = document.getElementById("edadAlumno").value.trim();
-            var curso = document.getElementById("cursoAlumno").value.trim();
-            var promociona = document.getElementById("promocionaAlumno").value.trim();
-
-            if (nombre === "" && edad === "" && curso === "" && promociona === "") {
-                alert("Debes ingresar al menos un criterio de búsqueda.");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 <body>
     <div class="container mt-5">
@@ -37,7 +23,7 @@
                 </div>
                 
                 <!-- Formulario de búsqueda -->
-                <form action="leerFiltro.php" method="POST" onsubmit="return validarFormulario();">
+                <form action="leerFiltro.php" method="POST">
                     <!-- Campo Nombre -->
                     <div class="mb-3">
                         <label for="nombreAlumno" class="form-label">Nombre del alumno:</label>
