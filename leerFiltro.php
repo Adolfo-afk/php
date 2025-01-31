@@ -1,6 +1,23 @@
 <?php
 // Incluir el archivo de conexión (si es necesario)
 include('conexion.php');
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Estudiantes filtrado por nombre</title>
+    
+    <!-- Link al CSS de Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Listado de Estudiantes Filtrado</h2>
+
+        
+<?php
 
 // Verificar si se ha enviado el formulario por POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -8,21 +25,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nombre = $_POST['nombre'];
 
         // Consultar los datos de la base de datos filtrados por nombre
-        $query = "SELECT id, nombre, edad, curso, promociona 
-        FROM alumnos WHERE nombre LIKE '%$nombre%'";
-        // esta linia te tira la tabla de abajo y para volver a tirar eso tenemos que usar esta antes
+        $query = "SELECT id, nombre, edad, curso, promociona FROM alumnos WHERE nombre LIKE '%$nombre%'";
         $resultado = mysqli_query($conexion, $query);
 
         // Verificar si la consulta fue exitosa
-        if (!$resultado) {
-            //pongo un mensaje para explicar que no se ha encontrado un alumno con ese nombre
+        if (mysqli_num_rows($resultado) == 0) {
+            //pngo un mensaje para explicar que no se ha encontrado
+            //un alumno con ese nombre.
 
-            //le facilito un enlace al ficherode alta de alumnos por si quiere introducirlo
+            //Le facilito un enlace al fichero de alta de alumnos, por si quiere introducirlo.
 
+            // Le puedo facilitar un enlace al fichero que muestra todos los alumnos.
 
-            //añadir boton
-           
-            die("Error en la consulta: " . mysqli_error($conexion));
+            // Añado un boton de volver para, que vuelva a la pagina de opciones.php.
+            ?>
+            <div class="card-body">
+                <div class="mb-3">
+                    <a href="#.php" class="btn btn-primary">Introducir alumnos</a>
+                </div>
+
+                <div class="mb-3">
+                    <a href="leerTodos.php" class="btn btn-primary">Ver alumnos</a>
+                </div>
+
+                <div class="mb-3">
+                    <a href="opciones.php" class="btn btn-primary">Volver</a>
+                </div>
+            </div>
+            <?php
         }
 
         // Mostrar los resultados en formato de tabla
@@ -64,3 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
+<!-- Scripts de Bootstrap -->
+     <!-- Agregar el script de Bootstrap 5 desde el CDN al final del body -->
+     <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

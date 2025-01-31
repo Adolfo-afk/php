@@ -18,7 +18,7 @@ if (!$resultado) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Estudiantes filtrado por nombres</title>
+    <title>Listado de Estudiantes</title>
     
     <!-- Link al CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
