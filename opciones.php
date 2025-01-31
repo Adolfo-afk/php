@@ -13,8 +13,8 @@
             var curso = document.getElementById("cursoAlumno").value.trim();
             var promociona = document.getElementById("promocionaAlumno").value.trim();
 
-            if (nombre === "" || edad === "" || curso === "" || promociona === "") {
-                alert("Todos los campos son obligatorios. Por favor, complétalos.");
+            if (nombre === "" && edad === "" && curso === "" && promociona === "") {
+                alert("Debes ingresar al menos un criterio de búsqueda.");
                 return false;
             }
             return true;
@@ -41,25 +41,25 @@
                     <!-- Campo Nombre -->
                     <div class="mb-3">
                         <label for="nombreAlumno" class="form-label">Nombre del alumno:</label>
-                        <input type="text" class="form-control" id="nombreAlumno" name="nombre" placeholder="Introduce el nombre" required>
+                        <input type="text" class="form-control" id="nombreAlumno" name="nombre" placeholder="Introduce el nombre">
                     </div>
 
                     <!-- Campo Edad -->
                     <div class="mb-3">
                         <label for="edadAlumno" class="form-label">Edad:</label>
-                        <input type="number" class="form-control" id="edadAlumno" name="edad" placeholder="Introduce la edad" required>
+                        <input type="number" class="form-control" id="edadAlumno" name="edad" placeholder="Introduce la edad">
                     </div>
 
                     <!-- Campo Curso -->
                     <div class="mb-3">
                         <label for="cursoAlumno" class="form-label">Curso:</label>
-                        <input type="text" class="form-control" id="cursoAlumno" name="curso" placeholder="Introduce el curso" required>
+                        <input type="text" class="form-control" id="cursoAlumno" name="curso" placeholder="Introduce el curso">
                     </div>
 
                     <!-- Campo Promociona -->
                     <div class="mb-3">
                         <label for="promocionaAlumno" class="form-label">¿Promociona?</label>
-                        <select class="form-control" id="promocionaAlumno" name="promociona" required>
+                        <select class="form-control" id="promocionaAlumno" name="promociona">
                             <option value="">Seleccione una opción</option>
                             <option value="Si">Sí</option>
                             <option value="No">No</option>
