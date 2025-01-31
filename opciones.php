@@ -6,7 +6,6 @@
     <title>Opciones - Alumnos</title>
     <!-- Link al CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    
 </head>
 <body>
     <div class="container mt-5">
@@ -25,10 +24,34 @@
                 
                 <!-- Formulario Ver Alumnos -->
                 <form action="leerFiltro.php" method="POST">
+                    <!-- Campo Nombre -->
                     <div class="mb-3">
-                        <label for="nombreAlumno" class="form-label">Ver alumnos cuyo nombre sea:</label>
-                        <input type="text" class="form-control" id="nombreAlumno" name="nombre" placeholder="Introduce el nombre del alumno" required>
+                        <label for="nombreAlumno" class="form-label">Nombre del alumno:</label>
+                        <input type="text" class="form-control" id="nombreAlumno" name="nombre" placeholder="Introduce el nombre del alumno">
                     </div>
+
+                    <!-- Campo Edad -->
+                    <div class="mb-3">
+                        <label for="edadAlumno" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="edadAlumno" name="edad" placeholder="Introduce la edad">
+                    </div>
+
+                    <!-- Campo Curso -->
+                    <div class="mb-3">
+                        <label for="cursoAlumno" class="form-label">Curso:</label>
+                        <input type="text" class="form-control" id="cursoAlumno" name="curso" placeholder="Introduce el curso">
+                    </div>
+
+                    <!-- Campo Promociona -->
+                    <div class="mb-3">
+                        <label for="promocionaAlumno" class="form-label">¿Promociona?</label>
+                        <select class="form-control" id="promocionaAlumno" name="promociona">
+                            <option value="">Seleccione una opción</option>
+                            <option value="Si">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success">Ver</button>
                 </form>
             </div>
@@ -36,8 +59,8 @@
     </div>
 
     <!-- Scripts de Bootstrap -->
-     <!-- Agregar el script de Bootstrap 5 desde el CDN al final del body -->
-     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
