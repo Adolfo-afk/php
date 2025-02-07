@@ -64,6 +64,42 @@
             </div>
         </div>
 
+     <!-- Sección Modificar Datos -->
+     <div class="card my-4">
+            <div class="card-header">
+                <h3>Modificar Datos</h3>
+            </div>
+            <div class="card-body">
+                <form action="modificarFiltro.php" method="POST">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">Modificar alumno cuyo ID sea:</label>
+                        <input type="text" class="form-control" id="idAlumno" name="id" placeholder="Introduce el ID del alumno a modificar:" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nuevo nombre del alumno:</label>
+                        <input type="text" class="form-control" id="nombreAlumno" name="nombre" placeholder="Introduce el nuevo nombre del alumno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edad" class="form-label">Nueva edad del alumno:</label>
+                        <input type="number" class="form-control" id="edadAlumno" name="edad" placeholder="Introduce la nueva edad del alumno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="curso" class="form-label">Nuevo curso del alumno:</label>
+                        <input type="text" class="form-control" id="cursoAlumno" name="curso" placeholder="Introduce el nuevo curso del alumno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="promocionar" class="form-label">Promocionar alumno:</label>
+                        <select class="form-control" id="promocionarAlumno" name="promocionar" required>
+                            <option value="si">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Modificar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts de Bootstrap -->
     <script src="js/bootstrap.bundle.min.js"></script>
