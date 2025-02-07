@@ -59,7 +59,7 @@
                         <label for="id" class="form-label">Eliminar alumnos cuyo id sea:</label>
                         <input type="text" class="form-control" id="idAlumno" name="id" placeholder="Introduce el id del alumno a eliminar:" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Eliminar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>
             </div>
         </div>
