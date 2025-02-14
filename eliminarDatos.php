@@ -26,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Eliminar de la tabla de Especies
         $sql_especie = "DELETE FROM Especies WHERE id_especie = '$id_especie'";
         $resultado_especie = mysqli_query($conexion, $sql_especie);
+        
+        
 
         // Comprobar si las consultas se ejecutaron correctamente
         if ($resultado_especie && $resultado_observaciones && $resultado_alimentacion) {
