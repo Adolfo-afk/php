@@ -4,7 +4,6 @@ include('conexion.php');
 
 // Si se recibe el formulario de introducción de datos
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     // Verificar y sanitizar entrada para cada campo
     $errores = [];
     if (empty($_POST['nombre_comun'])) {
@@ -70,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Si no hay errores, proceder a insertar los datos
     if (empty($errores)) {
-
         // Insertar en la tabla de Especies
         $sql_especie = "INSERT INTO Especies (nombre_comun, nombre_cientifico, familia, clase, orden, estado_conservacion)
                         VALUES ('$nombre_comun', '$nombre_cientifico', '$familia', '$clase', '$orden', '$estado_conservacion')";
@@ -107,64 +105,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Introducir Datos de Fauna</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/introducirDatos.css" rel="stylesheet"> <!-- Enlace al archivo CSS -->
 </head>
 <body>
 
 <div class="container mt-5">
-<h2 class="mb-4">Introducir Datos de Fauna</h2>
-<form action="IntroducirDatos.php" method="POST">
-    <div class="form-group">
-        <label for="nombre_comun">Nombre Común de la Especie:</label>
-        <input type="text" class="form-control" id="nombre_comun" name="nombre_comun" required>
-    </div>
+    <h2 class="mb-4">Introducir Datos de Fauna</h2>
+    <form action="IntroducirDatos.php" method="POST">
+        <div class="form-group">
+            <label for="nombre_comun">Nombre Común de la Especie:</label>
+            <input type="text" class="form-control" id="nombre_comun" name="nombre_comun" required>
+        </div>
 
-    <div class="form-group">
-        <label for="nombre_cientifico">Nombre Científico:</label>
-        <input type="text" class="form-control" id="nombre_cientifico" name="nombre_cientifico" required>
-    </div>
+        <div class="form-group">
+            <label for="nombre_cientifico">Nombre Científico:</label>
+            <input type="text" class="form-control" id="nombre_cientifico" name="nombre_cientifico" required>
+        </div>
 
-    <div class="form-group">
-        <label for="familia">Familia:</label>
-        <input type="text" class="form-control" id="familia" name="familia" required>
-    </div>
+        <div class="form-group">
+            <label for="familia">Familia:</label>
+            <input type="text" class="form-control" id="familia" name="familia" required>
+        </div>
 
-    <div class="form-group">
-        <label for="clase">Clase:</label>
-        <input type="text" class="form-control" id="clase" name="clase" required>
-    </div>
+        <div class="form-group">
+            <label for="clase">Clase:</label>
+            <input type="text" class="form-control" id="clase" name="clase" required>
+        </div>
 
-    <div class="form-group">
-        <label for="orden">Orden:</label>
-        <input type="text" class="form-control" id="orden" name="orden" required>
-    </div>
+        <div class="form-group">
+            <label for="orden">Orden:</label>
+            <input type="text" class="form-control" id="orden" name="orden" required>
+        </div>
 
-    <div class="form-group">
-        <label for="estado_conservacion">Estado de Conservación:</label>
-        <input type="text" class="form-control" id="estado_conservacion" name="estado_conservacion" required>
-    </div>
+        <div class="form-group">
+            <label for="estado_conservacion">Estado de Conservación:</label>
+            <input type="text" class="form-control" id="estado_conservacion" name="estado_conservacion" required>
+        </div>
 
-    <div class="form-group">
-        <label for="nombre_habitat">Nombre del Hábitat:</label>
-        <input type="text" class="form-control" id="nombre_habitat" name="nombre_habitat" required>
-    </div>
+        <div class="form-group">
+            <label for="nombre_habitat">Nombre del Hábitat:</label>
+            <input type="text" class="form-control" id="nombre_habitat" name="nombre_habitat" required>
+        </div>
 
-    <div class="form-group">
-        <label for="ubicacion_habitat">Ubicación del Hábitat:</label>
-        <input type="text" class="form-control" id="ubicacion_habitat" name="ubicacion_habitat" required>
-    </div>
+        <div class="form-group">
+            <label for="ubicacion_habitat">Ubicación del Hábitat:</label>
+            <input type="text" class="form-control" id="ubicacion_habitat" name="ubicacion_habitat" required>
+        </div>
 
-    <div class="form-group">
-        <label for="nombre_region">Nombre de la Región:</label>
-        <input type="text" class="form-control" id="nombre_region" name="nombre_region" required>
-    </div>
+        <div class="form-group">
+            <label for="nombre_region">Nombre de la Región:</label>
+            <input type="text" class="form-control" id="nombre_region" name="nombre_region" required>
+        </div>
 
-    <div class="form-group">
-        <label for="pais_region">País de la Región:</label>
-        <input type="text" class="form-control" id="pais_region" name="pais_region" required>
-    </div>
+        <div class="form-group">
+            <label for="pais_region">País de la Región:</label>
+            <input type="text" class="form-control" id="pais_region" name="pais_region" required>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Insertar Datos</button>
-</form>
+        <button type="submit" class="btn btn-primary">Insertar Datos</button>
+    </form>
 </div>
 
 <script src="js/bootstrap.bundle.min.js"></script>

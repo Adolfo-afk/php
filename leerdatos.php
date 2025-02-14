@@ -11,11 +11,22 @@ if (!$resultado) {
     die("Error en la consulta: " . mysqli_error($conexion));
 }
 
-// Mostrar los resultados en formato de tabla
+// Mostrar los resultados en formato de tabla con Bootstrap
 echo "
-<h2> Listado de Especies </h2>
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Listado de Especies, Hábitats, Regiones, Observaciones y Alimentación</title>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body>
 
-<table border='1'>
+<div class='container mt-5'>
+<h2 class='mb-4'>Listado de Especies</h2>
+<table class='table table-striped'>
+    <thead>
         <tr>
             <th>ID Especie</th>
             <th>Nombre Común</th>
@@ -24,7 +35,9 @@ echo "
             <th>Clase</th>
             <th>Orden</th>
             <th>Estado de Conservación</th>
-        </tr>";
+        </tr>
+    </thead>
+    <tbody>";
 
 // Recorrer cada fila de resultados y mostrarla
 while ($row = mysqli_fetch_assoc($resultado)) {
@@ -40,22 +53,24 @@ while ($row = mysqli_fetch_assoc($resultado)) {
 }
 
 // Cerrar la tabla HTML
-echo "</table>";
-
+echo "</tbody>
+</table>";
 
 // Consulta para obtener los datos de la tabla "Habitats"
 $query = "SELECT id_habitat, nombre, tipo, ubicacion FROM Habitats";
 $resultadoHabitat = mysqli_query($conexion, $query);
 echo "
-<h2> Listado de Hábitats </h2>
-
-<table border='1'>
+<h2 class='mb-4'>Listado de Hábitats</h2>
+<table class='table table-striped'>
+    <thead>
         <tr>
             <th>ID Hábitat</th>
             <th>Nombre</th>
             <th>Tipo</th>
             <th>Ubicación</th>
-        </tr>";
+        </tr>
+    </thead>
+    <tbody>";
 
 // Recorrer cada fila de resultados y mostrarla
 while ($row = mysqli_fetch_assoc($resultadoHabitat)) {
@@ -68,21 +83,23 @@ while ($row = mysqli_fetch_assoc($resultadoHabitat)) {
 }
 
 // Cerrar la tabla HTML
-echo "</table>";
-
+echo "</tbody>
+</table>";
 
 // Consulta para obtener los datos de la tabla "Regiones"
 $query = "SELECT id_region, nombre, pais FROM Regiones";
 $resultadoRegiones = mysqli_query($conexion, $query);
 echo "
-<h2> Listado de Regiones </h2>
-
-<table border='1'>
+<h2 class='mb-4'>Listado de Regiones</h2>
+<table class='table table-striped'>
+    <thead>
         <tr>
             <th>ID Región</th>
             <th>Nombre</th>
             <th>País</th>
-        </tr>";
+        </tr>
+    </thead>
+    <tbody>";
 
 // Recorrer cada fila de resultados y mostrarla
 while ($row = mysqli_fetch_assoc($resultadoRegiones)) {
@@ -94,8 +111,8 @@ while ($row = mysqli_fetch_assoc($resultadoRegiones)) {
 }
 
 // Cerrar la tabla HTML
-echo "</table>";
-
+echo "</tbody>
+</table>";
 
 // Consulta para obtener los datos de la tabla "Observaciones"
 $query = "SELECT o.id_observacion, o.fecha, o.observador, o.comentarios, e.nombre_comun AS especie, h.nombre AS habitat, r.nombre AS region
@@ -105,9 +122,9 @@ JOIN Habitats h ON o.id_habitat = h.id_habitat
 JOIN Regiones r ON o.id_region = r.id_region";
 $resultadoObservaciones = mysqli_query($conexion, $query);
 echo "
-<h2> Listado de Observaciones </h2>
-
-<table border='1'>
+<h2 class='mb-4'>Listado de Observaciones</h2>
+<table class='table table-striped'>
+    <thead>
         <tr>
             <th>ID Observación</th>
             <th>Fecha</th>
@@ -116,7 +133,9 @@ echo "
             <th>Especie</th>
             <th>Hábitat</th>
             <th>Región</th>
-        </tr>";
+        </tr>
+    </thead>
+    <tbody>";
 
 // Recorrer cada fila de resultados y mostrarla
 while ($row = mysqli_fetch_assoc($resultadoObservaciones)) {
@@ -132,8 +151,8 @@ while ($row = mysqli_fetch_assoc($resultadoObservaciones)) {
 }
 
 // Cerrar la tabla HTML
-echo "</table>";
-
+echo "</tbody>
+</table>";
 
 // Consulta para obtener los datos de la tabla "Alimentacion"
 $query = "SELECT a.id_alimentacion, a.tipo_alimento, a.descripcion, e.nombre_comun AS especie
@@ -141,15 +160,17 @@ FROM Alimentacion a
 JOIN Especies e ON a.id_especie = e.id_especie";
 $resultadoAlimentacion = mysqli_query($conexion, $query);
 echo "
-<h2> Listado de Alimentación </h2>
-
-<table border='1'>
+<h2 class='mb-4'>Listado de Alimentación</h2>
+<table class='table table-striped'>
+    <thead>
         <tr>
             <th>ID Alimentación</th>
             <th>Tipo de Alimento</th>
             <th>Descripción</th>
             <th>Especie</th>
-        </tr>";
+        </tr>
+    </thead>
+    <tbody>";
 
 // Recorrer cada fila de resultados y mostrarla
 while ($row = mysqli_fetch_assoc($resultadoAlimentacion)) {
@@ -162,9 +183,14 @@ while ($row = mysqli_fetch_assoc($resultadoAlimentacion)) {
 }
 
 // Cerrar la tabla HTML
-echo "</table>";
+echo "</tbody>
+</table>";
+
+echo "</div>";
+
+echo "</body>
+</html>";
 
 // Cerrar la conexión a la base de datos (opcional si no lo necesitas aquí)
 // mysqli_close($conexion);
 ?>
-
