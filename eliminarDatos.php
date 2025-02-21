@@ -4,40 +4,50 @@ include('conexion.php');
 
 // Si se recibe el formulario de eliminación de datos
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $errores = [];
 
-    // Verificar y sanitizar la entrada (solo ID de especie)
-    if (empty($_POST['id_especie'])) {
-        $errores[] = "El campo 'ID de la Especie' es obligatorio.";
-    } else {
-        $id_especie = mysqli_real_escape_string($conexion, $_POST['id_especie']);
+    // Verificar y sanitizar las entradas
+    $id_especie = !empty($_POST['id_especie']) ? mysqli_real_escape_string($conexion, $_POST['id_especie']) : null;
+    $id_habitat = !empty($_POST['id_habitat']) ? mysqli_real_escape_string($conexion, $_POST['id_habitat']) : null;
+    $id_region = !empty($_POST['id_region']) ? mysqli_real_escape_string($conexion, $_POST['id_region']) : null;
+
+    // Eliminar registros según los IDs proporcionados
+    if ($id_especie) {
+        $sql_observaciones = "DELETE FROM Observaciones WHERE id_especie = '$id_especie'";
+        $sql_alimentacion = "DELETE FROM Alimentacion WHERE id_especie = '$id_especie'";
+        $sql_especie = "DELETE FROM Especies WHERE id_especie = '$id_especie'";
+
+        mysqli_query($conexion, $sql_observaciones);
+        mysqli_query($conexion, $sql_alimentacion);
+        $resultado_especie = mysqli_query($conexion, $sql_especie);
+
+        if ($resultado_especie) {
+            echo "<div class='alert alert-success'>Especie eliminada correctamente.</div>";
+        } else {
+            echo "<div class='alert alert-danger'>Error al eliminar la especie: " . mysqli_error($conexion) . "</div>";
+        }
     }
 
-    // Si no hay errores, proceder a eliminar los datos
-    if (empty($errores)) {
+    if ($id_habitat) {
+        $sql_habitat = "DELETE FROM Habitats WHERE id_habitat = '$id_habitat'";
+        $resultado_habitat = mysqli_query($conexion, $sql_habitat);
 
-        // Eliminar de la tabla de Observaciones (relacionada con id_especie)
-        $sql_observaciones = "DELETE FROM Observaciones WHERE id_especie = '$id_especie'";
-        $resultado_observaciones = mysqli_query($conexion, $sql_observaciones);
-
-        // Eliminar de la tabla de Alimentacion (relacionada con id_especie)
-        $sql_alimentacion = "DELETE FROM Alimentacion WHERE id_especie = '$id_especie'";
-        $resultado_alimentacion = mysqli_query($conexion, $sql_alimentacion);
-
-        // Eliminar de la tabla de Especies
-        $sql_especie = "DELETE FROM Especies WHERE id_especie = '$id_especie'";
-        $resultado_especie = mysqli_query($conexion, $sql_especie);
-        
-        
-
-        // Comprobar si las consultas se ejecutaron correctamente
-        if ($resultado_especie && $resultado_observaciones && $resultado_alimentacion) {
-            echo "<div class='alert alert-success' role='alert'>Datos eliminados correctamente.</div>";
+        if ($resultado_habitat) {
+            echo "<div class='alert alert-success'>Hábitat eliminado correctamente.</div>";
         } else {
-            echo "<div class='alert alert-danger' role='alert'>Error al eliminar los datos: " . mysqli_error($conexion) . "</div>";
+            echo "<div class='alert alert-danger'>Error al eliminar el hábitat: " . mysqli_error($conexion) . "</div>";
         }
-    } else {
-        // Mostrar errores de validación
-        echo "<div class='alert alert-warning' role='alert'>" . implode("<br>", $errores) . "</div>";
+    }
+
+    if ($id_region) {
+        $sql_region = "DELETE FROM Regiones WHERE id_region = '$id_region'";
+        $resultado_region = mysqli_query($conexion, $sql_region);
+
+        if ($resultado_region) {
+            echo "<div class='alert alert-success'>Región eliminada correctamente.</div>";
+        } else {
+            echo "<div class='alert alert-danger'>Error al eliminar la región: " . mysqli_error($conexion) . "</div>";
+        }
     }
 
     // Cerrar conexión
@@ -50,77 +60,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Datos de Fauna</title>
-    <!-- Enlace a un archivo CSS personalizado -->
-    <link href="css/eliminarDatos.css" rel="stylesheet">
+    <title>Eliminar Datos</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container mt-5">
-<h2 class="mb-4">Eliminar Datos de Fauna</h2>
-<form action="eliminarDatos.php" method="POST">
-    <!-- Campo para ID de la Especie -->
-    <div class="form-group">
-        <label for="id_especie">ID de la Especie a Eliminar (Requerido):</label>
-        <input type="number" class="form-control" id="id_especie" name="id_especie" required>
-    </div>
+    <h2 class="mb-4">Eliminar Datos de Fauna</h2>
+    <form action="eliminarDatos.php" method="POST">
+        <!-- Campo para ID de la Especie -->
+        <div class="form-group">
+            <label for="id_especie">ID de la Especie a Eliminar:</label>
+            <input type="number" class="form-control" id="id_especie" name="id_especie">
+        </div>
 
-    <!-- Campos adicionales (opcionales) para mostrar más información -->
-    <div class="form-group">
-        <label for="nombre_comun">Nombre Común de la Especie:</label>
-        <input type="text" class="form-control" id="nombre_comun" name="nombre_comun">
-    </div>
+        <!-- Campo para ID del Hábitat -->
+        <div class="form-group">
+            <label for="id_habitat">ID del Hábitat a Eliminar:</label>
+            <input type="number" class="form-control" id="id_habitat" name="id_habitat">
+        </div>
 
-    <div class="form-group">
-        <label for="nombre_cientifico">Nombre Científico:</label>
-        <input type="text" class="form-control" id="nombre_cientifico" name="nombre_cientifico">
-    </div>
+        <!-- Campo para ID de la Región -->
+        <div class="form-group">
+            <label for="id_region">ID de la Región a Eliminar:</label>
+            <input type="number" class="form-control" id="id_region" name="id_region">
+        </div>
 
-    <div class="form-group">
-        <label for="familia">Familia:</label>
-        <input type="text" class="form-control" id="familia" name="familia">
-    </div>
-
-    <div class="form-group">
-        <label for="clase">Clase:</label>
-        <input type="text" class="form-control" id="clase" name="clase">
-    </div>
-
-    <div class="form-group">
-        <label for="orden">Orden:</label>
-        <input type="text" class="form-control" id="orden" name="orden">
-    </div>
-
-    <div class="form-group">
-        <label for="estado_conservacion">Estado de Conservación:</label>
-        <input type="text" class="form-control" id="estado_conservacion" name="estado_conservacion">
-    </div>
-
-    <div class="form-group">
-        <label for="nombre_habitat">Nombre del Hábitat:</label>
-        <input type="text" class="form-control" id="nombre_habitat" name="nombre_habitat">
-    </div>
-
-    <div class="form-group">
-        <label for="ubicacion_habitat">Ubicación del Hábitat:</label>
-        <input type="text" class="form-control" id="ubicacion_habitat" name="ubicacion_habitat">
-    </div>
-
-    <div class="form-group">
-        <label for="nombre_region">Nombre de la Región:</label>
-        <input type="text" class="form-control" id="nombre_region" name="nombre_region">
-    </div>
-
-    <div class="form-group">
-        <label for="pais_region">País de la Región:</label>
-        <input type="text" class="form-control" id="pais_region" name="pais_region">
-    </div>
-
-    <button type="submit" class="btn btn-danger">Eliminar Datos</button>
-</form>
+        <button type="submit" class="btn btn-danger mt-3">Eliminar Datos</button>
+    </form>
 </div>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

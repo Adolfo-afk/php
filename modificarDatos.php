@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Si no hay errores, proceder a modificar los datos
     if (empty($errores)) {
 
-        // Construcción de la consulta SQL para modificar los datos
+        // Consulta SQL para actualizar los datos de la especie
         $sql_especie = "UPDATE Especies SET 
                         nombre_comun = IFNULL('$nombre_comun', nombre_comun),
                         nombre_cientifico = IFNULL('$nombre_cientifico', nombre_cientifico),
@@ -37,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         estado_conservacion = IFNULL('$estado_conservacion', estado_conservacion)
                         WHERE id_especie = $id_especie";
 
-        // Ejecutar la consulta de modificación
+        // Ejecutar la consulta de modificación de la especie
         $resultado_especie = mysqli_query($conexion, $sql_especie);
 
         // Comprobar si la consulta se ejecutó correctamente
         if ($resultado_especie) {
-            echo "<div class='alert alert-success' role='alert'>Datos modificados correctamente.</div>";
+            echo "<div class='alert alert-success' role='alert'>Especie modificada correctamente.</div>";
         } else {
-            echo "<div class='alert alert-danger' role='alert'>Error al modificar los datos: " . mysqli_error($conexion) . "</div>";
+            echo "<div class='alert alert-danger' role='alert'>Error al modificar la especie: " . mysqli_error($conexion) . "</div>";
         }
     } else {
         // Mostrar errores de validación
@@ -112,4 +112,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
