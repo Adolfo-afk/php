@@ -1,0 +1,100 @@
+/* Estilo general para el cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor del formulario */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+/* Estilo para el título */
+h2 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 30px;
+}
+
+/* Formulario: Etiquetas */
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Estilo para los campos de entrada */
+.form-control {
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    width: 100%;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Enfoque en los campos de entrada (al hacer clic) */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.25);
+}
+
+/* Estilo para el botón de eliminar */
+.btn-danger {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+/* Efecto hover para el botón de eliminar */
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Estilo de las alertas */
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Alerta de éxito */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Alerta de error */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Alerta de advertencia */
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Espaciado extra para el formulario */
+button[type="submit"] {
+    margin-top: 20px;
+}

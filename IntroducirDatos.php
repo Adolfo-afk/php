@@ -1,102 +1,50 @@
 <?php
-// Incluir el archivo de conexión
 include('conexion.php');
 
-// Si se recibe el formulario de introducción de datos
+// Obtener opciones de la base de datos para los selects
+$query_ubicaciones = "SELECT DISTINCT ubicacion FROM habitats";
+$resultado_ubicaciones = mysqli_query($conexion, $query_ubicaciones);
+
+$query_paises = "SELECT DISTINCT pais FROM regiones";
+$resultado_paises = mysqli_query($conexion, $query_paises);
+
+// Modificación aquí: solo obtener los tipos de alimento omnivoro, carnivoro y herbivoro
+$query_alimentos = "SELECT DISTINCT tipo_alimento FROM alimentacion WHERE tipo_alimento IN ('omnivoro', 'carnivoro', 'herbivoro')";
+$resultado_alimentos = mysqli_query($conexion, $query_alimentos);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    // Verificar y sanitizar entrada para cada campo
-    $errores = [];
-    if (empty($_POST['nombre_comun'])) {
-        $errores[] = "El campo 'Nombre Común' es obligatorio.";
-    } else {
-        $nombre_comun = mysqli_real_escape_string($conexion, $_POST['nombre_comun']);
-    }
-
-    if (empty($_POST['nombre_cientifico'])) {
-        $errores[] = "El campo 'Nombre Científico' es obligatorio.";
-    } else {
-        $nombre_cientifico = mysqli_real_escape_string($conexion, $_POST['nombre_cientifico']);
-    }
-
-    if (empty($_POST['familia'])) {
-        $errores[] = "El campo 'Familia' es obligatorio.";
-    } else {
-        $familia = mysqli_real_escape_string($conexion, $_POST['familia']);
-    }
-
-    if (empty($_POST['clase'])) {
-        $errores[] = "El campo 'Clase' es obligatorio.";
-    } else {
-        $clase = mysqli_real_escape_string($conexion, $_POST['clase']);
-    }
-
-    if (empty($_POST['orden'])) {
-        $errores[] = "El campo 'Orden' es obligatorio.";
-    } else {
-        $orden = mysqli_real_escape_string($conexion, $_POST['orden']);
-    }
-
-    if (empty($_POST['estado_conservacion'])) {
-        $errores[] = "El campo 'Estado de Conservación' es obligatorio.";
-    } else {
-        $estado_conservacion = mysqli_real_escape_string($conexion, $_POST['estado_conservacion']);
-    }
-
-    // Validar Hábitat y Región
-    if (empty($_POST['nombre_habitat'])) {
-        $errores[] = "El campo 'Nombre del Hábitat' es obligatorio.";
-    } else {
-        $nombre_habitat = mysqli_real_escape_string($conexion, $_POST['nombre_habitat']);
-    }
-
-    if (empty($_POST['ubicacion_habitat'])) {
-        $errores[] = "El campo 'Ubicación del Hábitat' es obligatorio.";
-    } else {
-        $ubicacion_habitat = mysqli_real_escape_string($conexion, $_POST['ubicacion_habitat']);
-    }
-
-    if (empty($_POST['nombre_region'])) {
-        $errores[] = "El campo 'Nombre de la Región' es obligatorio.";
-    } else {
-        $nombre_region = mysqli_real_escape_string($conexion, $_POST['nombre_region']);
-    }
-
-    if (empty($_POST['pais_region'])) {
-        $errores[] = "El campo 'País de la Región' es obligatorio.";
-    } else {
-        $pais_region = mysqli_real_escape_string($conexion, $_POST['pais_region']);
-    }
-
-    // Si no hay errores, proceder a insertar los datos
-    if (empty($errores)) {
-
-        // Insertar en la tabla de Especies
-        $sql_especie = "INSERT INTO Especies (nombre_comun, nombre_cientifico, familia, clase, orden, estado_conservacion)
-                        VALUES ('$nombre_comun', '$nombre_cientifico', '$familia', '$clase', '$orden', '$estado_conservacion')";
-        $resultado_especie = mysqli_query($conexion, $sql_especie);
-
-        // Insertar en la tabla de Hábitats
-        $sql_habitat = "INSERT INTO Habitats (nombre, ubicacion) VALUES ('$nombre_habitat', '$ubicacion_habitat')";
-        $resultado_habitat = mysqli_query($conexion, $sql_habitat);
-
-        // Insertar en la tabla de Regiones
-        $sql_region = "INSERT INTO Regiones (nombre, pais) VALUES ('$nombre_region', '$pais_region')";
-        $resultado_region = mysqli_query($conexion, $sql_region);
-
-        // Comprobar si las consultas se ejecutaron correctamente
-        if ($resultado_especie && $resultado_habitat && $resultado_region) {
-            echo "<div class='alert alert-success' role='alert'>Datos introducidos correctamente.</div>";
-        } else {
-            echo "<div class='alert alert-danger' role='alert'>Error al insertar los datos: " . mysqli_error($conexion) . "</div>";
-        }
-    } else {
-        // Mostrar errores de validación
-        echo "<div class='alert alert-warning' role='alert'>" . implode("<br>", $errores) . "</div>";
-    }
-
-    // Cerrar conexión
-    mysqli_close($conexion);
+    $nombre_comun = $_POST['nombre_comun'];
+    $nombre_cientifico = $_POST['nombre_cientifico'];
+    $familia = $_POST['familia'];
+    $clase = $_POST['clase'];
+    $orden = $_POST['orden'];
+    $estado_conservacion = $_POST['estado_conservacion'];
+    $ubicacion = $_POST['ubicacion'];
+    $pais = $_POST['pais'];
+    $tipo_alimento = $_POST['tipo_alimento'];
+    $descripcion_alimento = $_POST['descripcion_alimento'];
+    $nombre_habitat = $_POST['nombre_habitat'];
+    $tipo_habitat = $_POST['tipo_habitat'];
+    $nombre_region = $_POST['nombre_region'];
+    
+    // Insertar en la tabla especies
+    $query_insert_especie = "INSERT INTO especies (nombre_comun, nombre_cientifico, familia, clase, orden, estado_conservacion) VALUES ('$nombre_comun', '$nombre_cientifico', '$familia', '$clase', '$orden', '$estado_conservacion')";
+    mysqli_query($conexion, $query_insert_especie);
+    $id_especie = mysqli_insert_id($conexion);
+    
+    // Insertar en la tabla habitats
+    $query_insert_habitat = "INSERT INTO habitats (id_especie, nombre, tipo, ubicacion) VALUES ('$id_especie', '$nombre_habitat', '$tipo_habitat', '$ubicacion')";
+    mysqli_query($conexion, $query_insert_habitat);
+    
+    // Insertar en la tabla regiones
+    $query_insert_region = "INSERT INTO regiones (id_especie, nombre, pais) VALUES ('$id_especie', '$nombre_region', '$pais')";
+    mysqli_query($conexion, $query_insert_region);
+    
+    // Insertar en la tabla alimentacion
+    $query_insert_alimentacion = "INSERT INTO alimentacion (id_especie, tipo_alimento, descripcion) VALUES ('$id_especie', '$tipo_alimento', '$descripcion_alimento')";
+    mysqli_query($conexion, $query_insert_alimentacion);
+    
+    echo "<div class='alert alert-success'>Datos insertados correctamente.</div>";
 }
 ?>
 
@@ -105,68 +53,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introducir Datos de Fauna</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Insertar Datos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
 <div class="container mt-5">
-<h2 class="mb-4">Introducir Datos de Fauna</h2>
-<form action="IntroducirDatos.php" method="POST">
-    <div class="form-group">
-        <label for="nombre_comun">Nombre Común de la Especie:</label>
-        <input type="text" class="form-control" id="nombre_comun" name="nombre_comun" required>
-    </div>
-
-    <div class="form-group">
-        <label for="nombre_cientifico">Nombre Científico:</label>
-        <input type="text" class="form-control" id="nombre_cientifico" name="nombre_cientifico" required>
-    </div>
-
-    <div class="form-group">
-        <label for="familia">Familia:</label>
-        <input type="text" class="form-control" id="familia" name="familia" required>
-    </div>
-
-    <div class="form-group">
-        <label for="clase">Clase:</label>
-        <input type="text" class="form-control" id="clase" name="clase" required>
-    </div>
-
-    <div class="form-group">
-        <label for="orden">Orden:</label>
-        <input type="text" class="form-control" id="orden" name="orden" required>
-    </div>
-
-    <div class="form-group">
-        <label for="estado_conservacion">Estado de Conservación:</label>
-        <input type="text" class="form-control" id="estado_conservacion" name="estado_conservacion" required>
-    </div>
-
-    <div class="form-group">
-        <label for="nombre_habitat">Nombre del Hábitat:</label>
-        <input type="text" class="form-control" id="nombre_habitat" name="nombre_habitat" required>
-    </div>
-
-    <div class="form-group">
-        <label for="ubicacion_habitat">Ubicación del Hábitat:</label>
-        <input type="text" class="form-control" id="ubicacion_habitat" name="ubicacion_habitat" required>
-    </div>
-
-    <div class="form-group">
-        <label for="nombre_region">Nombre de la Región:</label>
-        <input type="text" class="form-control" id="nombre_region" name="nombre_region" required>
-    </div>
-
-    <div class="form-group">
-        <label for="pais_region">País de la Región:</label>
-        <input type="text" class="form-control" id="pais_region" name="pais_region" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Insertar Datos</button>
-</form>
+    <h2>Insertar Nueva Especie</h2>
+    <form method="POST" action="">
+        <input type="text" name="nombre_comun" class="form-control" placeholder="Nombre Común" required><br>
+        <input type="text" name="nombre_cientifico" class="form-control" placeholder="Nombre Científico" required><br>
+        <input type="text" name="familia" class="form-control" placeholder="Familia" required><br>
+        <input type="text" name="clase" class="form-control" placeholder="Clase" required><br>
+        <input type="text" name="orden" class="form-control" placeholder="Orden" required><br>
+        <input type="text" name="estado_conservacion" class="form-control" placeholder="Estado de Conservación" required><br>
+        
+        <select name="ubicacion" class="form-control" required>
+            <option value="">Seleccione Ubicación</option>
+            <?php while ($row = mysqli_fetch_assoc($resultado_ubicaciones)) { echo "<option value='{$row['ubicacion']}'>{$row['ubicacion']}</option>"; } ?>
+        </select><br>
+        
+        <input type="text" name="nombre_habitat" class="form-control" placeholder="Nombre del Hábitat" required><br>
+        <input type="text" name="tipo_habitat" class="form-control" placeholder="Tipo de Hábitat" required><br>
+        
+        <select name="pais" class="form-control" required>
+            <option value="">Seleccione País</option>
+            <?php while ($row = mysqli_fetch_assoc($resultado_paises)) { echo "<option value='{$row['pais']}'>{$row['pais']}</option>"; } ?>
+        </select><br>
+        
+        <input type="text" name="nombre_region" class="form-control" placeholder="Nombre de la Región" required><br>
+        
+        <select name="tipo_alimento" class="form-control" required>
+            <option value="">Seleccione Tipo de Alimento</option>
+            <?php while ($row = mysqli_fetch_assoc($resultado_alimentos)) { echo "<option value='{$row['tipo_alimento']}'>{$row['tipo_alimento']}</option>"; } ?>
+        </select><br>
+        
+        <input type="text" name="descripcion_alimento" class="form-control" placeholder="Descripción del Alimento" required><br>
+        
+        <button type="submit" class="btn btn-primary">Insertar</button>
+    </form>
 </div>
-
-<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
