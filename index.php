@@ -41,9 +41,9 @@ if (isset($_POST['logout'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #1e1e1e, #333);
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Se aplica el mismo gradiente */
             font-family: 'Arial', sans-serif;
-            color: #fff;
+            color: white;
             text-align: center;
         }
 
@@ -112,7 +112,7 @@ if (isset($_POST['logout'])) {
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.15);
+            background: #fff;  /* Fondo blanco */
             border: none;
             padding: 20px;
             border-radius: 12px;
@@ -262,9 +262,6 @@ if (isset($_POST['logout'])) {
                 <p>Son herbívoras, se alimentan principalmente de hojas de acacia.</p>
             </div>
 
-            <!-- Sigue agregando más animales aquí... -->
-
-            <!-- Total 23 animales más -->
         </div>
     </div>
 
@@ -276,13 +273,8 @@ if (isset($_POST['logout'])) {
 
 </div>
 
-<!-- Mensaje de conexión -->
-<div class="text-center mt-4">
-    <small><?php echo $conexion_msg; ?></small>
-</div>
-
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
+

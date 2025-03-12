@@ -228,9 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     <?php endif; ?>
 </div>
 
-<div class="conexion-msg">
-    <?php echo $conexion_msg; ?>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
