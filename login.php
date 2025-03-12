@@ -191,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
             <button type="submit" name="login" class="btn btn-primary">Ingresar</button>
 
-            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            
             <a href="?register=true" class="register-link">¿No tienes cuenta? Regístrate</a>
         </form>
     <?php endif; ?>
