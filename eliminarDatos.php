@@ -4,7 +4,7 @@ include('conexion.php');
 
 // Verificamos si se ha enviado el ID de la especie a través de la URL
 if (isset($_GET['id_especie'])) {//isset comprobar que no sea nulo
-    // Sanitizamos la entrada para evitar inyección SQL
+    // limpiamos o modificamos la entrada para evitar inyección SQL
     $id_especie = intval($_GET['id_especie']); // Convertimos a número entero
 
     // Verificamos que la conexión a la base de datos sea válida
