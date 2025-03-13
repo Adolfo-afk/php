@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirigir según el rol
             if ($user['rol'] == 'admin') {
+                // La función header() en PHP permite enviar encabezados HTTP al navegador,
+                // antes de que se envíe cualquier tipo de salida (como texto, HTML, o incluso espacios en blanco).
                 header("Location: admin.php");
             } else {
                 header("Location: index.php");
