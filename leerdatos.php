@@ -73,7 +73,7 @@ $resultado_regiones = mysqli_query($conexion, $query_regiones);
 
 <div class="container mt-4">
     <div class="header">
-        <h2>📋 Datos de la Base de Datos</h2>
+        <h2>📋 Datos de la fauna</h2>
     </div>
 
     <!-- Especies -->
