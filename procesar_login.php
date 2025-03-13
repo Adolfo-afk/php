@@ -8,10 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
-    $resultado = mysqli_query($conexion, $query);
-//  devuelve el número de filas en un conjunto de resultados.
+    // //  devuelve el número de filas en un conjunto de resultados.
 // Es especialmente útil cuando quieres saber cuántos registros han sido retornados por una consulta
+    $resultado = mysqli_query($conexion, $query);
+    // se usa para obtener el número de filas que hay en un conjunto de resultados de una consulta SELECT a una base de datos MySQL
     if ($resultado && mysqli_num_rows($resultado) > 0) {
+        //obtener una fila de resultados de una consulta SQL como un array asociativo. 
+        //Esta función es útil cuando quieres acceder a los datos de una fila utilizando los nombres de las columnas
         $user = mysqli_fetch_assoc($resultado);
 
         // Verificar la contraseña
