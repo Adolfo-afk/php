@@ -182,7 +182,7 @@ if (isset($_POST['logout'])) {
         <div class="row">
             <!-- Ejemplo de tarjeta de animal -->
             <div class="card">
-                <img src="https://placekitten.com/500/300" alt="Tigre de Bengala">
+                
                 <h3>🐯 Tigre de Bengala</h3>
                 <p>El tigre de Bengala es una de las especies más icónicas de la fauna asiática.</p>
                 <h4>Alimentación:</h4>
@@ -190,7 +190,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/501/301" alt="Elefante Africano">
+                
                 <h3>🐘 Elefante Africano</h3>
                 <p>El elefante africano es el mamífero terrestre más grande del planeta.</p>
                 <h4>Alimentación:</h4>
@@ -198,7 +198,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/502/302" alt="Águila Real">
+                
                 <h3>🦅 Águila Real</h3>
                 <p>El águila real es un ave rapaz conocida por su aguda visión.</p>
                 <h4>Alimentación:</h4>
@@ -207,7 +207,7 @@ if (isset($_POST['logout'])) {
 
             <!-- Más animales -->
             <div class="card">
-                <img src="https://placekitten.com/503/303" alt="León">
+                
                 <h3>🦁 León</h3>
                 <p>El león es conocido como el rey de la selva debido a su gran fuerza y su melena característica.</p>
                 <h4>Alimentación:</h4>
@@ -215,7 +215,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/504/304" alt="Oso Polar">
+                
                 <h3>🐻‍❄️ Oso Polar</h3>
                 <p>El oso polar es una de las especies más icónicas del Ártico.</p>
                 <h4>Alimentación:</h4>
@@ -223,7 +223,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/505/305" alt="Gorila">
+                
                 <h3>🦍 Gorila</h3>
                 <p>Los gorilas son grandes primates que viven en las selvas de África.</p>
                 <h4>Alimentación:</h4>
@@ -231,7 +231,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/506/306" alt="Cebra">
+                
                 <h3>🦓 Cebra</h3>
                 <p>Las cebras son conocidas por sus rayas blancas y negras.</p>
                 <h4>Alimentación:</h4>
@@ -239,7 +239,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/507/307" alt="Koala">
+                
                 <h3>🐨 Koala</h3>
                 <p>El koala es un marsupial nativo de Australia.</p>
                 <h4>Alimentación:</h4>
@@ -247,7 +247,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/508/308" alt="Cocodrilo">
+                
                 <h3>🐊 Cocodrilo</h3>
                 <p>El cocodrilo es un gran reptil que vive en aguas tropicales.</p>
                 <h4>Alimentación:</h4>
@@ -255,7 +255,7 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="card">
-                <img src="https://placekitten.com/509/309" alt="Jirafa">
+               
                 <h3>🦒 Jirafa</h3>
                 <p>La jirafa es el animal terrestre más alto del mundo.</p>
                 <h4>Alimentación:</h4>

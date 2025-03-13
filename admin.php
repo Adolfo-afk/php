@@ -1,8 +1,10 @@
 <?php
 session_start();
+// Verifica si la sesión del usuario no está establecida o si el rol no es 'admin'
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != 'admin') {
+    // Redirige al usuario a la página de inicio de sesión si no cumple con los requisitos
     header("Location: login.php");
-    exit();
+    exit(); // Detiene la ejecución del script para evitar que continúe cargando la página restringida
 }
 ?>
 <!DOCTYPE html>

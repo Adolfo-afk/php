@@ -16,7 +16,13 @@ if ($conexion) {
 // Manejo del formulario de login
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
-    $password = md5($_POST['password']); // Cifrar la contraseña con MD5
+    $password = md5($_POST['password']); // Cifrar la contraseña con MD5 
+    
+    // //$password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
+    //$confirm_password = $_POST['confirm_password']; // No ciframos aquí todavía
+    
+
+    
 
     // Consulta SQL para verificar usuario
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND password = '$password'";
@@ -26,6 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     if ($user) {
         $_SESSION['usuario'] = $user['usuario'];
         $_SESSION['rol'] = $user['rol'];
+
+        // Establecer cookies para recordar al usuario (opcional)
+        if (isset($_POST['remember'])) {
+            setcookie('usuario', $user['usuario'], time() + (86400 * 30), "/"); // Expira en 30 días
+            setcookie('rol', $user['rol'], time() + (86400 * 30), "/");
+        }
 
         if ($user['rol'] == 'admin') {
             header("Location: admin.php");
@@ -43,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = md5($_POST['password']); // Cifrar la contraseña con MD5
     $confirm_password = md5($_POST['confirm_password']);
-
+//password_verify($confirm_password, $password);  
     // Verificar si el usuario ya existe
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $resultado = mysqli_query($conexion, $query);
@@ -63,6 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
             $error = "Las contraseñas no coinciden.";
         }
     }
+}
+
+// Si el usuario ya tiene cookies, se autologea
+if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
+    $_SESSION['usuario'] = $_COOKIE['usuario'];
+    $_SESSION['rol'] = $_COOKIE['rol'];
 }
 ?>
 
@@ -189,6 +207,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
                 <input type="password" name="password" class="form-control" id="password" required>
             </div>
 
+            <div class="mb-3">
+                <label for="remember" class="form-check-label">
+                    <input type="checkbox" name="remember" id="remember"> Recordarme
+                </label>
+            </div>
+
             <button type="submit" name="login" class="btn btn-primary">Ingresar</button>
 
             
@@ -227,8 +251,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
         </form>
     <?php endif; ?>
 </div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
