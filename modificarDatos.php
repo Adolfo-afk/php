@@ -163,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Crear un formulario con los datos existentes para que el usuario los pueda modificar
             foreach ($labels as $name => $label) {
+                // Obtiene el valor de $especie[$name] si existe, de lo contrario asigna una cadena vacía ('')
                 $value = htmlspecialchars($especie[$name] ?? '');
                 echo "<div class='form-group'>
                         <label for='$name'>$label:</label>

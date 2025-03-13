@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <option value="">Seleccione Ubicación</option>
             <?php 
             // Mostrar todas las ubicaciones obtenidas desde la base de datos
+            //se usa en PHP para obtener una fila de resultados de una consulta SQL en MySQL y devolverla como un array asociativo
             while ($row = mysqli_fetch_assoc($resultado_ubicaciones)) { 
                 echo "<option value='{$row['ubicacion']}'>{$row['ubicacion']}</option>"; 
             }
@@ -101,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <option value="">Seleccione País</option>
             <?php 
             // Mostrar todos los países obtenidos desde la base de datos
+            // //se usa en PHP para obtener una fila de resultados de una consulta SQL en MySQL y devolverla como un array asociativo
             while ($row = mysqli_fetch_assoc($resultado_paises)) { 
                 echo "<option value='{$row['pais']}'>{$row['pais']}</option>"; 
             }

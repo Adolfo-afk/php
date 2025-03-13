@@ -52,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 
 // Manejo del formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    //tiene la función de sanitizar(limpiar o modificar) el dato ingresado por el usuario antes de insertarlo en una consulta SQL
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = md5($_POST['password']); // Cifrar la contraseña con MD5
     $confirm_password = md5($_POST['confirm_password']);
@@ -78,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 }
 
 // Si el usuario ya tiene cookies, se autologea
+//La función isset() se usa para verificar si una variable está definida y no es NULL
 if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
     $_SESSION['usuario'] = $_COOKIE['usuario'];
     $_SESSION['rol'] = $_COOKIE['rol'];
