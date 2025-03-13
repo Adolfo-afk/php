@@ -11,4 +11,3 @@ header("Location: login.php");
 // Asegura que el script se detenga para evitar que se ejecute más código después de la redirección
 exit();
 ?>
-
