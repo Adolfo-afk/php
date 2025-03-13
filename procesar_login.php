@@ -3,12 +3,14 @@ session_start();
 include('conexion.php'); // Conexión a la BD
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // se utiliza para sanitizar (limpiar) los datos ingresados por el usuario antes de ser usados en una consulta SQL
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = $_POST['password'];
 
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $resultado = mysqli_query($conexion, $query);
-
+//  devuelve el número de filas en un conjunto de resultados.
+// Es especialmente útil cuando quieres saber cuántos registros han sido retornados por una consulta
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         $user = mysqli_fetch_assoc($resultado);
 
