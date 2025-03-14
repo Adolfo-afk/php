@@ -17,12 +17,6 @@ if ($conexion) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = md5($_POST['password']); // Cifrar la contraseña con MD5 
-    
-    // //$password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
-    //$confirm_password = $_POST['confirm_password']; // No ciframos aquí todavía
-    
-
-    
 
     // Consulta SQL para verificar usuario
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND password = '$password'";
@@ -39,11 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             setcookie('rol', $user['rol'], time() + (86400 * 30), "/");
         }
 
-        if ($user['rol'] == 'admin') {
-            header("Location: admin.php");
-        } else {
-            header("Location: index.php");
-        }
+        header("Location: " . ($user['rol'] == 'admin' ? "admin.php" : "index.php"));
         exit();
     } else {
         $error = "Usuario o contraseña incorrectos";
@@ -52,11 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 
 // Manejo del formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-    //tiene la función de sanitizar(limpiar o modificar) el dato ingresado por el usuario antes de insertarlo en una consulta SQL
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = md5($_POST['password']); // Cifrar la contraseña con MD5
     $confirm_password = md5($_POST['confirm_password']);
-//password_verify($confirm_password, $password);  
+
     // Verificar si el usuario ya existe
     $query = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $resultado = mysqli_query($conexion, $query);
@@ -65,10 +54,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
         $error = "El nombre de usuario ya está registrado.";
     } else {
         if ($password === $confirm_password) {
-            // Insertar nuevo usuario en la base de datos
-            $query = "INSERT INTO usuarios (usuario, password, rol) VALUES ('$usuario', '$password', 'user')";
+            // Asignar un rol por defecto 'user' al momento de registrar
+            $rol = 'user'; // O puedes personalizarlo dependiendo de los requisitos
+            
+            // Consulta de inserción
+            $query = "INSERT INTO usuarios (usuario, password, rol) VALUES ('$usuario', '$password', '$rol')";
             if (mysqli_query($conexion, $query)) {
-                $error = "Usuario registrado exitosamente. Puedes iniciar sesión ahora.";
+                // Obtener el último ID insertado y verificar que el rol se insertó correctamente
+                $last_id = mysqli_insert_id($conexion);  // Obtener el último ID insertado
+                $query = "SELECT usuario, rol FROM usuarios WHERE id = '$last_id'";  // Asegurarse de obtener el rol correctamente
+                $resultado = mysqli_query($conexion, $query);
+                $user = mysqli_fetch_assoc($resultado);
+                
+                // Mostrar el rol del nuevo usuario para confirmar que se insertó
+                $_SESSION['usuario'] = $usuario;
+                $_SESSION['rol'] = $user['rol']; // Guardar el rol del usuario registrado
+
+                // Mostrar el rol del nuevo usuario para confirmar que se insertó
+                $success_message = "Usuario registrado exitosamente con el rol: " . $user['rol'];
+
+                header("Location: index.php?message=registered"); // Redirigir tras registro exitoso
+                exit();
             } else {
                 $error = "Error al registrar el usuario. Intenta de nuevo.";
             }
@@ -79,11 +85,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 }
 
 // Si el usuario ya tiene cookies, se autologea
-//La función isset() se usa para verificar si una variable está definida y no es NULL
 if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
     $_SESSION['usuario'] = $_COOKIE['usuario'];
     $_SESSION['rol'] = $_COOKIE['rol'];
 }
+
+$showRegisterForm = isset($_GET['register']);
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +101,6 @@ if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
     <title>Login / Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilos similares a los anteriores */
         body {
             background: linear-gradient(135deg, #667eea, #764ba2);
             height: 100vh;
@@ -104,7 +110,6 @@ if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
             margin: 0;
             font-family: 'Arial', sans-serif;
         }
-
         .login-container {
             background: #fff;
             padding: 40px;
@@ -114,30 +119,24 @@ if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
             max-width: 420px;
             transition: transform 0.3s ease-in-out;
         }
-
         .login-container:hover {
             transform: scale(1.05);
         }
-
         .login-container h2 {
             font-size: 30px;
             color: #667eea;
             margin-bottom: 20px;
             text-transform: uppercase;
         }
-
         .form-control {
             border-radius: 5px;
-            box-shadow: none;
             border-color: #ddd;
             transition: border-color 0.3s;
         }
-
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
         }
-
         .btn-primary {
             width: 100%;
             font-size: 18px;
@@ -147,114 +146,70 @@ if (isset($_COOKIE['usuario']) && isset($_COOKIE['rol'])) {
             border: none;
             transition: background 0.3s ease;
         }
-
         .btn-primary:hover {
             background: #4c6ce2;
         }
-
         .alert {
             margin-top: 15px;
         }
-
-        .conexion-msg {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-size: 14px;
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 8px 12px;
-            border-radius: 5px;
-        }
-
-        .forgot-password, .register-link {
+        .register-link {
             color: #667eea;
             font-size: 14px;
             text-decoration: none;
             margin-top: 10px;
             display: block;
         }
-
-        .forgot-password:hover, .register-link:hover {
+        .register-link:hover {
             text-decoration: underline;
-        }
-
-        @media (max-width: 576px) {
-            .login-container {
-                padding: 25px;
-                max-width: 90%;
-            }
         }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h2 class="text-center">Iniciar Sesión</h2>
-
-    <?php if (!isset($_POST['register'])): ?>
-        <!-- Formulario de login -->
+    <?php if ($showRegisterForm): ?>
+        <h2 class="text-center">Registrar Cuenta</h2>
         <form method="POST">
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?php echo $error; ?></div>
             <?php endif; ?>
-
+            <?php if (isset($success_message)): ?>
+                <div class="alert alert-success"><?php echo $success_message; ?></div>
+            <?php endif; ?>
             <div class="mb-3">
                 <label for="usuario" class="form-label">Usuario:</label>
-                <input type="text" name="usuario" class="form-control" id="usuario" required>
+                <input type="text" name="usuario" class="form-control" required>
             </div>
-
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña:</label>
-                <input type="password" name="password" class="form-control" id="password" required>
+                <input type="password" name="password" class="form-control" required>
             </div>
-
             <div class="mb-3">
-                <label for="remember" class="form-check-label">
-                    <input type="checkbox" name="remember" id="remember"> Recordarme
-                </label>
+                <label for="confirm_password" class="form-label">Confirmar Contraseña:</label>
+                <input type="password" name="confirm_password" class="form-control" required>
             </div>
-
+            <button type="submit" name="register" class="btn btn-primary">Registrar</button>
+            <a href="index.php" class="register-link">¿Ya tienes cuenta? Inicia sesión</a>
+        </form>
+    <?php else: ?>
+        <h2 class="text-center">Iniciar Sesión</h2>
+        <form method="POST">
+            <?php if ($error): ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+            <?php endif; ?>
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario:</label>
+                <input type="text" name="usuario" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
             <button type="submit" name="login" class="btn btn-primary">Ingresar</button>
-
-            
             <a href="?register=true" class="register-link">¿No tienes cuenta? Regístrate</a>
         </form>
     <?php endif; ?>
-
-    <?php if (isset($_POST['register']) || isset($_GET['register'])): ?>
-        <!-- Formulario de registro -->
-        <form method="POST">
-            <?php if ($error): ?>
-                <div class="alert alert-danger"><?php echo $error; ?></div>
-            <?php endif; ?>
-
-            <h2 class="text-center">Registrar Cuenta</h2>
-
-            <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario:</label>
-                <input type="text" name="usuario" class="form-control" id="usuario" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña:</label>
-                <input type="password" name="password" class="form-control" id="password" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Confirmar Contraseña:</label>
-                <input type="password" name="confirm_password" class="form-control" id="confirm_password" required>
-            </div>
-
-            <button type="submit" name="register" class="btn btn-primary">Registrar</button>
-
-            
-            <a href="?login=true" class="register-link">¿Ya tienes cuenta? Inicia sesión</a>
-        </form>
-    <?php endif; ?>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
