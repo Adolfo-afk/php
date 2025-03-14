@@ -24,7 +24,7 @@ if ($conexion) {
 
 // Cierre de sesión
 if (isset($_POST['logout'])) {
-    session_unset();  
+    session_unset();  //es una función en PHP que elimina todas las variables de sesión actuales.
     session_destroy(); 
     setcookie(session_name(), '', time() - 3600, '/'); 
     header("Location: login.php");

@@ -17,6 +17,7 @@ if (isset($_GET['id_especie'])) {//isset comprobar que no sea nulo
 
         // Ejecutar las consultas y verificar si tuvieron éxito
         if (
+            // mysqli_query utilizada para ejecutar consultas en una base de datos MySQL utilizando la extensión MySQLi
             mysqli_query($conexion, $query_delete_alimentacion) &&
             mysqli_query($conexion, $query_delete_region) &&
             mysqli_query($conexion, $query_delete_habitat) &&
